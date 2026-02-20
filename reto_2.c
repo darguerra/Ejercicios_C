@@ -7,7 +7,7 @@ Reto 2: Lógica Iterativa Problema: Realiza un programa que solicite dos número
  el programa debe ser capaz de intercambiarlos para que el bucle funcione
  */
 
-int esPar(int num)
+int esPar(unsigned int num)
 {
     if (num % 2 == 0)
         return (1);
@@ -15,27 +15,42 @@ int esPar(int num)
         return(0);
 }
 
-int sumaNumPares(int num1, int num2)
+unsigned int sumaNumPares(unsigned int num1, unsigned int num2)
 {
-    int aux, i, j;
-    if (num1 < num2)
+    unsigned int aux, sum, i;
+    if (num1 > num2) //Si el numero 1 es menor que el 2
     {
-        aux = num2;
-        for (num1; num1 < aux; i++)
+        //Si el num1 es mayor (ejemplo 100) que el num2 (50), se intercambian los valores. Si no es así, no entra en esta condición.
+        aux = num2; //aux vale 50
+        num2 = num1;    //num2 vale 100
+        num1 = aux; //num1 vale 50 y aux 50 todavía
+    }
+    sum = 0;
+    for (i = num1; i <= num2; i++) //mientras aux sea menor o igual a num2 (el grande) revisa si es par
+    {
+        if (esPar(i) == 1)
         {
-         if (esPar(num1))
-         {
-            /* code */
+            sum += i;
          }
-            
-        }
-        
     }
-    else
-    {
-        aux = num1;
-    }
+    return (sum);
+}
 
-    
-    
+int main(void)
+{
+    unsigned int n1, n2, result;
+
+    n1 = 0;
+    n2 = 0;
+    result = 0;
+ 
+    printf("\nEscriba el primer numero:\n");
+    scanf("%u", &n1);
+    printf("\nEscriba el segundo numero:\n");
+    scanf("%u", &n2);
+
+    result = sumaNumPares(n1, n2);
+    printf("\nLa suma total es: %u\n", result);
+
+    return (0);
 }
