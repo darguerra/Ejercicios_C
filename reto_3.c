@@ -48,26 +48,20 @@ int existeEnVector(int num, int *vectNum, int size) // CHECK
 
 int *interseccionVectores(int *v1, int *v2, int *v3, int size_v1, int size_v2, int *size_v3)
 {
-    int i, j, k;
-    
+    int i, j;
+
     for (i = 0; i < size_v1; i++)
     {
         for (j = 0; j < size_v2; j++)
         {
-            printf("\nSe está comparando %d con %d\n", v1[i], v2[j]);
             if (v1[i] == v2[j])
             {
-                if (existeEnVector(v1[i], v3, *size_v3) == 0)
+                if (!existeEnVector(v1[i], v3, *size_v3))
                 {
-                    for (k = 0; k < *size_v3; k++)
-                    {
-                        printf("%d No está en V3.\n", v1[i]);
-                        v3[k] = v1[i];
+                        v3[*size_v3] = v1[i]; //correcto
+                        (*size_v3)++;
                         break;
-                    }
                 }
-                else
-                    printf("%d está en V3 y no se copia.\n", v1[i]);
                 break;
             }
         }
@@ -79,12 +73,11 @@ int *interseccionVectores(int *v1, int *v2, int *v3, int size_v1, int size_v2, i
 int main(void)
 {
     int i, size, sizev3, limite;
-    int vector1[] = {5, 6, 7, 7, 9, 10, 9, 3, 13};
-    int vector2[] = {1, 2, 7, 8, 13, 9, 3, 13};
+    int vector1[] = {5, 6, 7, 7, 9, 10, 9, 3, 13, 1998};
+    int vector2[] = {1, 2, 7, 8, 13, 9, 3, 13, 1998, 98};
     int sizev1 = sizeof(vector1) / sizeof(vector1[0]);
     int sizev2 = sizeof(vector2) / sizeof(vector2[0]);
-   // int *p_vector1 = vector1; //Que diferencia hay entre usar puntero o usar vector1?
-    //int *p_vector2 = vector2;
+
   if (sizev1 > sizev2)
     sizev3 = sizev1;
   else
@@ -96,9 +89,8 @@ int main(void)
 
     //Los que se repiten en ambos son 7, 9, 3, 13
     interseccionVectores(vector1, vector2, vector3, sizev1, sizev2, &limite);
-    
-    printf("\nLos numeros que se repiten son:\n");
-    for (i = 0; i < sizev3; i++)
+
+    for (i = 0; i < limite; i++)
     {
         printf("\n%d\n", vector3[i]);
     }
