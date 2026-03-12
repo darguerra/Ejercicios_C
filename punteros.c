@@ -6,6 +6,7 @@ int main(void)
     int *p_array = array;
 
     printf("\nEste es la dirección del array DEL BLOQUE COMPLETO, no del primer elemento: &array-->%p\n", &array);
+    printf("\nEste es la dirección del array y del primer elemento: &array[0]-->%p\n", &array[0]);
     printf("\nEste es la direccion del array (primer elemento): array --> %p\n", array);
     printf("\nEste es el valor del array, del valor 0 (primer elemento): array[0] --> %d\n", array[0]);
     printf("\nEsta es la dirección del valor 0 del array: &array[0]) --> %p\n", &array[0]);
