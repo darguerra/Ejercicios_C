@@ -60,3 +60,36 @@ int procesarConsumos(struct tipoVivienda*   viviendas,
 
     return 0;
 }
+int main(void)
+{
+    struct tipoVivienda v1 = {
+        .idCatastro = "Noseque",
+        .propietario = "Dario Guerra",
+        .direccion = "calle nosecuantos",
+        .superficie = 150.78,
+        .consumos = {
+            30.05,
+            45.56,
+            17.23,
+            80.54,
+            60.56,
+            0.98,
+            13.00,
+            23.98,
+            75.99,
+            43.56,
+            66.12,
+            87.81
+        }
+    };
+    printf("El catastro es: %s\n", v1.idCatastro);
+    printf("El propietario es: %s\n", v1.propietario);
+    printf("La dirección es: %s\n", v1.direccion);
+    printf("La superficie es: %.2f\n", v1.superficie);
+    int i;
+    for(i = 0; i < 12; i++)
+    {
+        printf("El consumo del mes %d es: %.2f\n", i, v1.consumos[i]);
+    };
+    return 0;
+}
