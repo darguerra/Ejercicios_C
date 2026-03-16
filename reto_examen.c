@@ -28,43 +28,62 @@ Las dimensiones físicas de la matriz están definidas por las macros FIL y COL.
 La función debe recibir la matriz, sus dimensiones efectivas, y los tres punteros necesarios para los resultados.
 
 */
-int    analizarMatriz(int *(matriz)[COL], int numFila, int numCol, int *suma, int *maxLocal, int *filaMaxLocal, int *colMaxLocal)
+int    analizarMatriz(int (*matriz)[COL], int numFila, int numCol, int *suma, int *maxLocal, int *filaMaxLocal, int *colMaxLocal)
 {
     int i, j;
-    int flag = 0;
+    int flag = 1;
     int df, dc;
 
     for( i = 1; i < numFila-1; i++)
     {
         for (j = 1; j < numCol-1; j++)
         {
+            flag = 1;
             *suma += *(*(matriz+i)+j);
-            for (df = i-1; df <= i+1; df++)
+
+            for(df = i - 1; df <= i +1; df++)
             {
-                for(dc = j -1; dc <= j+1; dc++)
+                for(dc = j -1; dc <= j + 1; dc++)
                 {
-                    if(df = 0 && dc == 0)
+                    if(df == i && dc == j)
                         continue;
-                    if(*(*(matriz + df)+dc) > *(*(matriz +i)+j))
+                    if(*(*(matriz + df)+dc) >= *(*(matriz + i)+j))
                     {
                         flag = 0;
                         break;
                     }
-                    else
-                        flag = 1;
                 }
-            if(flag == 1)
-                {
-                    *filaMaxLocal = *(*(matriz + i)+j);
+                if (flag == 0)
                     break;
-                }
             }
-            if (flag == 1)
-                break;
+            if(flag == 1)
+            {
+                *maxLocal = *(*(matriz+i)+j);
+                *filaMaxLocal = i;
+                *colMaxLocal = j;
+                return 1;
+            }
         }
     }
-    if(flag == 1)
-        return 1;
-    else
-        return 0;
+    return 0;
+}
+
+int main(void)
+{
+    int ex[FIL][COL] = {
+        {1,2,3,4,5,6},
+        {2,3,4,5,6,8},
+         {5,1,1,1,1},
+        {2,3,4,5,6,8},
+        {2,3,4,5,89,8},
+        {2,3,4,5,6,8},
+    };
+    int result = 0;
+    int r_suma = 0;
+    int maximoLocal = 0;
+    int FilaMax = 0;
+    int  ColMax = 0;
+    result = analizarMatriz( ex,6,6,&r_suma,&maximoLocal, &FilaMax, &ColMax );
+    printf("\n La suma es: %d\n El maximo local es: %d\n La fila del maximo es: %d\n La columna del maximo es: %d\n El resultado de la funcion es: %d", r_suma,maximoLocal, FilaMax, ColMax, result );
+    return 1;
 }
