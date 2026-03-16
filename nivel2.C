@@ -11,7 +11,7 @@ Nota: Recuerda que los paréntesis en (*m) son obligatorios para que no se confu
 .
 */
 
-void recorrerMatriz(int  (*matriz)[COLUMNAS], int numFil, int numCol)
+void recorrerMatriz(int  (*matriz)[COLUMNAS], int numFil, int numCol, int *result)
 {
     int i,j;
 
@@ -21,6 +21,7 @@ void recorrerMatriz(int  (*matriz)[COLUMNAS], int numFil, int numCol)
         {
             //printf(" %d ", *(*(matriz +i)+j));
             printf(" %d ", matriz[i][j]);
+            *result += matriz[i][j];
         }
         printf("\n");
     }
@@ -35,6 +36,8 @@ int main(void)
         {1, 2, 2, 2, 2, 1},
         {1, 1, 1, 1, 1, 1},
     };
-    recorrerMatriz(matrix,5, 6);
+    int result = 0;
+    recorrerMatriz(matrix,5, 6, &result);
+    printf("\nLa suma de todos los valores de la matriz es: %d\n", result);
     return 0;
 }
