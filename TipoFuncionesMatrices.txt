@@ -1,0 +1,106 @@
+RESUMEN TIPOS DE FUNCIONES PARA MATRICES EN C
+
+1. MATRIZ REAL (forma clásica)
+
+Cabecera:
+----------------
+void f(int m[][COL], int fil);
+o
+void f(int (*m)[COL], int fil);
+
+- Lo que se pasa en main:
+int m[2][3];
+f(m, 2);
+
+- Cómo recorrer:
+for(i = 0; i < fil; i++)
+    for(j = 0; j < COL; j++)
+        m[i][j];          // o *(*(m+i)+j)
+
+- Notas:
+  • El compilador debe conocer el tamaño de las columnas.
+  • No se necesita & al pasar la matriz.
+  • Se puede usar m[i][j] directamente.
+
+------------------------------------------------
+
+2. PUNTERO LINEAL (linealización de la matriz)
+
+Cabecera:
+----------------
+void f(int *m, int fil, int col);
+
+- Lo que se pasa en main:
+int m[2][3];
+f((int*)m, 2, 3);      // CAST necesario para puntero lineal
+
+- Cómo recorrer:
+for(i = 0; i < fil; i++)
+    for(j = 0; j < col; j++)
+        *(m + i*col + j);
+
+- Notas:
+  • La matriz se trata como un bloque continuo de memoria.
+  • Se puede pasar un puntero que apunte al primer elemento.
+  • No se puede usar m[i][j] directamente sin cast adicional.
+
+------------------------------------------------
+
+3. ARRAY DE PUNTEROS (cada fila es un puntero independiente)
+
+Cabecera:
+----------------
+void f(int *m[], int fil, int col);
+o
+void f(int **m, int fil, int col);
+
+- Cómo crear en main:
+int fila1[3] = {1,2,3};
+int fila2[3] = {4,5,6};
+int *m[2];
+m[0] = fila1;
+m[1] = fila2;
+
+- Cómo recorrer:
+for(i = 0; i < fil; i++)
+    for(j = 0; j < col; j++)
+        m[i][j];          // o *(*(m+i)+j)
+
+- Notas:
+  • Cada fila puede ser independiente.
+  • m[i] es un puntero a la fila i.
+  • Muy útil cuando filas tienen tamaños distintos.
+  • Se pasa solo `m`, no &m.
+
+------------------------------------------------
+
+4. PUNTOS CLAVE DE PASO DE PARÁMETROS
+
+- El nombre del array/matriz ya es la dirección del primer elemento.
+- Para variables simples se pasa &x.
+- Para punteros ya inicializados se pasa directamente.
+- Nunca mezclar & con matrices a menos que se espere int (*)[fil][col].
+
+------------------------------------------------
+
+5. RESUMEN RÁPIDO DE ACCESO
+
+| Tipo función           | Cómo recorrer         |
+|------------------------|--------------------|
+| int m[][COL]            | m[i][j], *(*(m+i)+j) |
+| int (*m)[COL]           | m[i][j], *(*(m+i)+j) |
+| int *m                  | *(m + i*col + j)    |
+| int *m[] o int **m      | m[i][j], *(*(m+i)+j)|
+
+------------------------------------------------
+
+6. REGLAS DE EXAMEN
+
+- Si la función espera `int *` → usar puntero lineal y cast si pasas matriz.
+- Si espera matriz (`int m[][COL]` o `int (*m)[COL]`) → pasar el nombre de la matriz.
+- `m[i][j]` solo funciona si la función conoce el tamaño de las columnas o si es array de punteros.
+- No usar `&` con arrays/matrices reales.
+
+------------------------------------------------
+
+FIN DEL RESUMEN
