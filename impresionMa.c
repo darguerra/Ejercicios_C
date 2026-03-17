@@ -1,13 +1,7 @@
 #include <stdio.h>
 #define FIL 2
 #define COL 3
-/*
-Imprime la matriz
-int m[2][3] = {
-    {1,2,3},
-    {4,5,6}
-};
-*/
+
 void    imprimir(int m[][COL], int fil, int col)
 {
     int i, j;
